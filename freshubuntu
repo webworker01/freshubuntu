@@ -1,0 +1,116 @@
+#!/bin/bash
+
+if [ "$EUID" -ne 0 ]
+then 
+    echo -e "\e[41mPlease use sudo or run as root...\e[0m"
+    exit
+fi
+
+read -p "Configure timezone & locale? (y/n) " -n 1 DOLOCALE
+echo
+if [[ $DOLOCALE =~ ^[Yy]$ ]]
+then
+    dpkg-reconfigure tzdata
+    dpkg-reconfigure locales
+fi
+
+read -p "Upgrade packages? (y/n) " -n 1 DOUPGRADES
+echo
+if [[ $DOUPGRADES =~ ^[Yy]$ ]]
+then
+    apt-get update && apt-get -y dist-upgrade
+fi
+
+read -p "Install extra tools? (y/n) " -n 1 DOEXTRAS
+echo
+if [[ $DOEXTRAS =~ ^[Yy]$ ]]
+then
+    apt -y install fail2ban ufw git curl bash-completion htop jq
+fi
+
+read -p "Update hostname? (y/n) " -n 1 DOHOSTNAME
+echo
+if [[ $DOHOSTNAME =~ ^[Yy]$ ]]
+then
+    read -p "Enter hostname: " NEWHOSTNAME
+    echo "$NEWHOSTNAME" > /etc/hostname
+    sed -i "1i127.0.0.1 ${NEWHOSTNAME}" /etc/hosts
+fi
+
+read -p "Disable IPV6? (y/n) " -n 1 DOIPV6
+echo
+
+if [[ $DOIPV6 =~ ^[Yy]$ ]]
+then
+    echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
+    echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
+    echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
+    sysctl -p
+fi
+
+read -p "Configure UFW? (This will only allow incoming port 22) (y/n) " -n 1 DOUFW
+echo
+if [[ $DOUFW =~ ^[Yy]$ ]]
+then
+    ufw default deny incoming
+    ufw default allow outgoing
+    ufw allow 22 comment 'SSH'
+    ufw enable
+    systemctl enable ufw
+    ufw status
+fi
+
+read -p "Add non-root sudo user? (y/n) " -n 1 DONONROOT
+echo
+if [[ $DONONROOT =~ ^[Yy]$ ]]
+then
+    read -p "Enter user name: " NEWUSERNAME
+    echo
+    useradd -m $NEWUSERNAME
+    adduser $NEWUSERNAME sudo
+    passwd $NEWUSERNAME
+    sudo chsh $NEWUSERNAME -s /bin/bash
+    
+    grep -q "^[#]*force_color_prompt=" /home/$NEWUSERNAME/.bashrc && sed -i "/^[#]*force_color_prompt=/c\force_color_prompt=yes" /home/$NEWUSERNAME/.bashrc
+
+    source /home/$NEWUSERNAME/.bashrc
+
+    read -p "Please enter the public key (and label if desired) for $NEWUSERNAME (not recommended: enter to skip): " NEWUSERPUBKEY
+    if [[ ! -z "$NEWUSERPUBKEY" ]]
+    then
+        mkdir -p /home/$NEWUSERNAME/.ssh/
+        echo "ssh-rsa $NEWUSERPUBKEY" >> /home/$NEWUSERNAME/.ssh/authorized_keys
+        chmod -R 700 /home/$NEWUSERNAME/.ssh/
+        chown -R $NEWUSERNAME:$NEWUSERNAME /home/$NEWUSERNAME/.ssh/
+        
+        read -p "Copy key to root user? " -n 1 DOROOTKEY
+        if [[ $DOROOTKEY =~ ^[Yy]$ ]]
+        then
+            mkdir -p /root/.ssh
+            cp /home/$NEWUSERNAME/.ssh/authorized_keys /root/.ssh/
+            chown -R root:root /root/.ssh/
+            chmod -R 700 /root/.ssh/
+        fi
+    fi
+
+    read -p "Please login with the SSH key on the new user now to verify connectivity. Have you completed this? (y/n) " -n 1 TESTEDCONNECTIVITY
+    echo
+    if [[ $TESTEDCONNECTIVITY =~ ^[Yy]$ ]]
+    then
+        read -p "Disable root login? " -n 1 DOROOTDISABLE
+        echo
+        if [[ $DOROOTDISABLE =~ ^[Yy]$ ]]
+        then
+            grep -q "^[#]*PermitRootLogin" /etc/ssh/sshd_config && sed -i "/^[#]*PermitRootLogin/c\PermitRootLogin no" /etc/ssh/sshd_config || echo "PermitRootLogin no" >> /etc/ssh/sshd_config
+        fi
+
+        grep -q "^[#]*PubkeyAuthentication" /etc/ssh/sshd_config && sed -i "/^[#]*PubkeyAuthentication/c\PubkeyAuthentication yes" /etc/ssh/sshd_config || echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
+        grep -q "^[#]*ChallengeResponseAuthentication" /etc/ssh/sshd_config && sed -i "/^[#]*ChallengeResponseAuthentication/c\ChallengeResponseAuthentication no" /etc/ssh/sshd_config || echo "ChallengeResponseAuthentication no" >> /etc/ssh/sshd_config
+        grep -q "^[#]*PasswordAuthentication" /etc/ssh/sshd_config && sed -i "/^[#]*PasswordAuthentication/c\PasswordAuthentication no" /etc/ssh/sshd_config || echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
+
+        systemctl restart sshd.service
+    else
+        echo -e "\e[41mSorry, it won't be safe to do the final steps here then... take care.\e[0m"
+    fi
+fi
+   

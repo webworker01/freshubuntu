@@ -1,0 +1,45 @@
+# https://superuser.com/questions/687348/how-to-persist-gnu-screen-layout-after-restart
+# http://linux.bolden.ru/wp-content/uploads/2016/03/screenrc.zip
+# https://gist.github.com/joaopizani/2718397
+
+#get ip address every 600
+backtick 101 600 600 sh -c 'hostname -I | cut -d " " -f1'
+
+# the following two lines give a two-line status, with the current window highlighted
+hardstatus alwayslastline
+hardstatus string '%{= kG}%{g}[%{G}%H%? %1`%?%{g}][%{W}%101`%{g}][%= %{= kw}%-w%{+b yk} %n*%t%?(%u)%? %{-}%+w %=%{g}][%{B}%m/%d%{W}%C%A%{g}]'
+
+# huge scrollback buffer
+defscrollback 10000
+
+# no welcome message
+startup_message off
+
+# 256 colors
+attrcolor b ".I"
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+defbce on
+
+# default windows
+screen -t Bash  0 bash
+screen -t Bash  1 bash
+screen -t Bash  2 bash
+select 0
+
+# get rid of silly xoff stuff
+bind s split
+
+# layouts
+layout autosave on
+layout new one
+select 0
+layout new three
+split
+split -v
+focus down
+
+layout attach one
+layout select one
+
+#don't buffer fullscreen apps
+altscreen on
