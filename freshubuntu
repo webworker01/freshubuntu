@@ -75,11 +75,11 @@ then
 
     source /home/$NEWUSERNAME/.bashrc
 
-    read -p "Please enter the public key (and label if desired) for $NEWUSERNAME (not recommended: enter to skip): " NEWUSERPUBKEY
+    read -p "Please enter the public key (include the ssh-rsa prefix and also a label if desired) for $NEWUSERNAME (enter to skip - not recommended): " NEWUSERPUBKEY
     if [[ ! -z "$NEWUSERPUBKEY" ]]
     then
         mkdir -p /home/$NEWUSERNAME/.ssh/
-        echo "ssh-rsa $NEWUSERPUBKEY" >> /home/$NEWUSERNAME/.ssh/authorized_keys
+        echo "$NEWUSERPUBKEY" >> /home/$NEWUSERNAME/.ssh/authorized_keys
         chmod -R 700 /home/$NEWUSERNAME/.ssh/
         chown -R $NEWUSERNAME:$NEWUSERNAME /home/$NEWUSERNAME/.ssh/
         
