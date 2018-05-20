@@ -1,0 +1,36 @@
+#!/bin/bash
+#Script for automated encrypted backups using duplicity
+#
+#Setup:
+#
+#Not required, but suggest running everything else as root including adding to cron so you can
+#backup anything on the filesystem without messing around with users
+#
+#Setup SCP/SSH connectivity to a remote server you wish to backup to
+#
+#sudo apt-get install duplicity python-paramiko python-gobject-2
+#
+#Create a gpg key and make sure to back up the private key as all archives will be encrypted
+#
+#Modify the following params
+export PASSPHRASE=gpgpassphrase
+gpgpubkey=gpgpubkey
+remotelocation=scp://user@server/duplicity/
+loglocation=/var/log/duplicity.log
+fullbackup=7D
+removeold=30D
+
+#array of backup locations, add a new line to backupdirs as desired and increment the index number
+#first string is the local directory to backup, second is the target subdir on the remote server
+declare -a backupdirs
+backupdirs[0]="/home/user userbackup"
+backupdirs[1]="/usr/local/bin usrlocalbin"
+
+#By default I've exluded blocks and chainstate directories for coins which can get quite large.
+#Add or remove excludes as desired, no need to edit anything else
+for backupdir in "${backupdirs[@]}"; do
+    elem=($backupdir)
+    echo "Backing up ${elem[0]} to duplicity/${elem[1]}"
+    duplicity --full-if-older-than $fullbackup --encrypt-key="$gpgpubkey" --log-file $loglocation --exclude '**blocks/**' --exclude '**chainstate/**' ${elem[0]} $remotelocation${elem[1]}
+    duplicity remove-older-than $removeold --force --encrypt-key="$gpgpubkey" --log-file $loglocation $remotelocation${elem[1]}
+done
