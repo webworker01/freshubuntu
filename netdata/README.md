@@ -19,9 +19,11 @@ I like to set the history on the master server a little longer and disable loggi
 On the slave servers, disable a few things:
 
 Under [global]
+
 `memory mode = none`
 
 Under [web]
+
 `mode = none`
 
 # Securing it
