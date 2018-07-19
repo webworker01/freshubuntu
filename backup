@@ -36,4 +36,6 @@ for backupdir in "${backupdirs[@]}"; do
     duplicity --full-if-older-than $fullbackup --encrypt-key=$gpgpubkey --log-file $loglocation --exclude '**blocks/**' --exclude '**chainstate/**' ${elem[0]} $remotelocation${elem[1]}
     #duplicity remove-older-than $removeold --force --encrypt-key=$gpgpubkey --log-file $loglocation $remotelocation${elem[1]}
     duplicity remove-all-but-n-full $numfull --force --encrypt-key=$gpgpubkey --log-file $loglocation $remotelocation${elem[1]}
+    duplicity remove-all-inc-of-but-n-full $numfull --force --encrypt-key=$gpgpubkey --log-file $loglocation $remotelocation${elem[1]}
+    duplicity cleanup --force --encrypt-key=$gpgpubkey --log-file $loglocation $remotelocation${elem[1]}
 done
