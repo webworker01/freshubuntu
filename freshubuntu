@@ -21,7 +21,7 @@ fi
 read -p "Install extra tools? (y/n) " -n 1 DOEXTRAS
 echo
 if [[ $DOEXTRAS =~ ^[Yy]$ ]]; then
-    apt -y install fail2ban ufw git curl bash-completion htop jq
+    apt -y install fail2ban ufw git curl bash-completion htop jq bc
 fi
 
 read -p "Update hostname? (y/n) " -n 1 DOHOSTNAME
