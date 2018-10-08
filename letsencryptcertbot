@@ -1,0 +1,20 @@
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install python-certbot-nginx
+sudo certbot --nginx certonly
+
+#certs will be placed in  /etc/letsencrypt/live/*
+
+
+echo "run sudo crontab -e"
+echo "add - 17 7 * * * certbot renew --post-hook \"systemctl reload nginx\""
+
+echo "edit nginx website config"
+echo "add:"
+echo "listen [::]:443 default_server;"
+echo "ssl on;"
+echo "ssl_certificate /etc/letsencrypt/live/domainname.com/fullchain.pem;"
+echo "ssl_certificate_key /etc/letsencrypt/live/domainname.com/privkey.pem;"
+echo ""
+echo "sudo service nginx restart"
