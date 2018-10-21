@@ -2,6 +2,9 @@ New netdata multi server layout replace `<replace with your netdata server>` and
 
 ![Netdata Multi Server Dashboard](./netdatadash.png)
 
+[Install custom dashboard](https://github.com/netdata/netdata/wiki/Custom-Dashboards)
+
+* `/usr/share/netdata/web`
 
 # Setting up Master / Slave replication for Netdata
 
