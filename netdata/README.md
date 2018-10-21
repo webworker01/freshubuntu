@@ -9,6 +9,11 @@ New netdata multi server layout replace `<replace with your netdata server>` and
 
 Mainly on the first server you generate a uuid and set it in the stream.conf file, then on your other servers you put the uuid and ip address from the first server into their stream.conf files.
 
+* `sudo /etc/netdata/edit-config stream.conf`
+* `stream = yes`
+* `destination = <yourmasterserver.hostname>`
+* `api key = <yourapikey>`
+
 # /etc/netdata/netdata.conf tweaks
 
 I like to set the history on the master server a little longer and disable logging since we'll use an nginx reverse proxy which will log access for us.
