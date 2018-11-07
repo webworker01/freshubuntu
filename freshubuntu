@@ -32,7 +32,7 @@ if [[ $DOHOSTNAME =~ ^[Yy]$ ]]; then
     sed -i "1i127.0.0.1 ${NEWHOSTNAME}" /etc/hosts
 fi
 
-read -p "Disable IPV6? (y/n) " -n 1 DOIPV6
+read -p "Disable IPV6? (Warning! This may interfere with some packages) (y/n) " -n 1 DOIPV6
 echo
 
 if [[ $DOIPV6 =~ ^[Yy]$ ]]; then
@@ -82,7 +82,7 @@ if [[ $DONONROOT =~ ^[Yy]$ ]]; then
             chmod -R 700 /root/.ssh/
         fi
 
-        read -p "Please login with the SSH key on the new user now to verify connectivity. Have you completed this? (y/n) " -n 1 TESTEDCONNECTIVITY
+        read -p "Please login with the SSH key on the new user now in a separate terminal to verify connectivity. Have you completed this? (Warning! After pressing yes here password based authentication will be disabled!) (y/n) " -n 1 TESTEDCONNECTIVITY
         echo
         if [[ $TESTEDCONNECTIVITY =~ ^[Yy]$ ]]; then
             grep -q "^[#]*PubkeyAuthentication" /etc/ssh/sshd_config && sed -i "/^[#]*PubkeyAuthentication/c\PubkeyAuthentication yes" /etc/ssh/sshd_config || echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
