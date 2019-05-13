@@ -31,6 +31,8 @@ sudo ./freshubuntu
 ```
 
 ## All contents / Other optional tools
+Most scripts have documentation within them so please read through them, learn and suggest improvements!
+
 Script Name | Function
 ----------- | --------
 **freshubuntu** | Run this first as root for initial setup of your server for basic security needs
