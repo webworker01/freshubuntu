@@ -8,6 +8,8 @@ New netdata multi server layout replace `<replace with your netdata server>` and
 
 # Setting up Master / Slave replication for Netdata
 
+`bash <(curl -Ss https://my-netdata.io/kickstart.sh)`
+
 [Netdata Replication Documentation](https://github.com/netdata/netdata/tree/master/streaming)
 
 Mainly on the first server you generate a uuid and set it in the stream.conf file, then on your other servers you put the uuid and ip address from the first server into their stream.conf files.
