@@ -8,16 +8,35 @@ New netdata multi server layout replace `<replace with your netdata server>` and
 
 # Setting up Master / Slave replication for Netdata
 
-`bash <(curl -Ss https://my-netdata.io/kickstart.sh)`
-
 [Netdata Replication Documentation](https://github.com/netdata/netdata/tree/master/streaming)
 
 Mainly on the first server you generate a uuid and set it in the stream.conf file, then on your other servers you put the uuid and ip address from the first server into their stream.conf files.
 
-* `sudo /etc/netdata/edit-config stream.conf`
-* `stream = yes`
-* `destination = <yourmasterserver.hostname>`
-* `api key = <yourapikey>`
+## Setup Slave
+```
+bash <(curl -Ss https://my-netdata.io/kickstart.sh)
+#/etc/netdata/edit-config stream.conf
+cp /usr/lib/netdata/conf.d/stream.conf /etc/netdata/
+nano /etc/netdata/stream.conf
+```
+
+```
+[stream]
+  enabled = yes
+  destination = <yourmasterserver.hostname>
+  api key = <server defined api key>
+```
+
+`nano /etc/netdata/netdata.conf`
+
+```
+[global]
+  memory mode = none
+[web]
+  mode = none
+[backend]
+  enabled = no
+```
 
 # /etc/netdata/netdata.conf tweaks
 
@@ -25,16 +44,6 @@ I like to set the history on the master server a little longer and disable loggi
 
 `history = 14400`
 `access log = none`
-
-On the slave servers, disable a few things:
-
-Under [global]
-
-`memory mode = none`
-
-Under [web]
-
-`mode = none`
 
 # Securing it
 
