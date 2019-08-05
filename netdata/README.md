@@ -38,6 +38,8 @@ nano /etc/netdata/stream.conf
   enabled = no
 ```
 
+`sudo service netdata restart`
+
 # /etc/netdata/netdata.conf tweaks
 
 I like to set the history on the master server a little longer and disable logging since we'll use an nginx reverse proxy which will log access for us.
