@@ -1,0 +1,15 @@
+#!/bin/bash
+
+myip=$(dig +short myip.opendns.com @resolver1.opendns.com)
+
+echo "$myip"
+
+url="http://ip-api.com/json/$myip"
+
+echo "getting geolocation from $url"
+
+remotedata=$(curl -N -S -s $url)
+
+locationdata=$(echo "[$remotedata]" | jq .)
+
+echo "$locationdata"
