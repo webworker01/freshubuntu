@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# @author webworker01
+#
 
 if [ "$EUID" -ne 0 ]; then
     echo -e "\e[41mPlease use sudo or run as root...\e[0m"
