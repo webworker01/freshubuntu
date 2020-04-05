@@ -6,6 +6,12 @@ New netdata multi server layout replace `<replace with your netdata server>` and
 
 * `/usr/share/netdata/web`
 
+# Opt Out of Tracking
+
+Run `sudo touch /etc/netdata/.opt-out-from-anonymous-statistics` to opt out of tracking.
+
+https://github.com/netdata/netdata/blob/master/docs/anonymous-statistics.md#opt-out
+
 # Setting up Master / Slave replication for Netdata
 
 [Netdata Replication Documentation](https://github.com/netdata/netdata/tree/master/streaming)
