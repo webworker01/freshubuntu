@@ -1,0 +1,5 @@
+#!/bin/bash
+
+https://askubuntu.com/a/1135589
+
+sudo echo -e '\n# Disable snd-hda-intel power saving\noptions snd-hda-intel power_save=0 power_save_controller=N\n' >> /etc/modprobe.d/alsa-base.conf 

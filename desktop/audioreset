@@ -1,0 +1,3 @@
+#!/bin/bash
+export PULSE_LATENCY_MSEC=400
+pulseaudio -k && sudo alsa force-reload

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#  printf '%s\n' '#!/bin/bash' '/home/me/freshubuntu/nvidia 15 &' 'exit 0' | sudo tee -a /etc/rc.local
+#  sudo chmod +x /etc/rc.local
+#  reboot
+#
+#sudo apt install nvidia-cuda-toolkit
+#sudo nvidia-xconfig -a --cool-bits 28
+#sudo nvidia-smi -pl 126      # 70% 1070ti - this number should be .7 of whatever the actual wattage of the device is. 1070ti = 180, 1070 = 230
+xset -dpms
+nvidia-smi -i 0 -pl 126
+nvidia-smi -i 1 -pl 126
+nvidia-smi -i 2 -pl 126
+nvidia-smi -i 4 -pl 126
+nvidia-smi -i 3 -pl 200 # 70% 1070
+#sudo nvidia-smi -pm 1 #enable persistence mode, but this can also be done by changing `--no-persistence-mode` in `/usr/lib/systemd/system/nvidia-persistenced.service`  to `--persistence-mode`
+
+
+
+
