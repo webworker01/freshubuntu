@@ -1,5 +1,8 @@
 #!/bin/bash
-
+#
+# /home/user/spotify/spotify.sh > /home/musere/spotify/spotifynowplaying.txt
+# /usr/local/bin/spotify current-oneline > /home/user/spotify/spotifynowplaying.txt
+#
 pid=$(pidof -s spotify)
 
 if [[ ! -z $pid ]]; then

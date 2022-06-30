@@ -38,7 +38,12 @@ Script Name | Function
 **freshubuntu** | Run this first as root for initial setup of your server for basic security needs
 **.screenrc** | Make the screen program fancier - Copy to your home directory
 **01-serverid** | Add to /etc/update-motd.d to display some info about your server on login
-**fail2banstatusall** | Script to show status of all fail2ban jails
 **backup** | Encrypted incremental backups using duplicity, some config required, see script comments. Add to daily cron and set it and forget it
+**[]
+**desktop(./desktop)** | Reference scripts for working with gnome desktop environment
+**fail2banstatusall** | Script to show status of all fail2ban jails
 **letsencryptcertbot** | Setup free SSL/TLS certificates for websites
 **[netdata](./netdata)** | Lightweight dashboard for monitoring server resources see [readme](./netdata)
+**myip** | Simply displays your public ip and location data
+**ssh-keygen** | Generate ed25519 keypair
+**sshtabs** | Script you can modify to connect to multiple remote ssh sessions and restore screen sessions
