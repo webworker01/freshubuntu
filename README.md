@@ -39,8 +39,7 @@ Script Name | Function
 **.screenrc** | Make the screen program fancier - Copy to your home directory
 **01-serverid** | Add to /etc/update-motd.d to display some info about your server on login
 **backup** | Encrypted incremental backups using duplicity, some config required, see script comments. Add to daily cron and set it and forget it
-**[]
-**desktop(./desktop)** | Reference scripts for working with gnome desktop environment
+**[desktop](./desktop)** | Reference scripts for working with gnome desktop environment
 **fail2banstatusall** | Script to show status of all fail2ban jails
 **letsencryptcertbot** | Setup free SSL/TLS certificates for websites
 **[netdata](./netdata)** | Lightweight dashboard for monitoring server resources see [readme](./netdata)
