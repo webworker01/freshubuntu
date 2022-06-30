@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
     <title>Netdata Dash 2.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -39,16 +39,33 @@
     */
     </script>
     <style>
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #161616 #000;
+        }
+
+        *::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: #161616;
+        }
+
         body {
             background-color:#000;
         }
-        
+
         h4 {
             margin: 33px 0 0;
             color: #BF830D;
             font-size: 22px;
         }
-        
+
         .alternate {
             background-color: #23282d;
         }
