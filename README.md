@@ -45,4 +45,3 @@ Script Name | Function
 **[netdata](./netdata)** | Lightweight dashboard for monitoring server resources see [readme](./netdata)
 **myip** | Simply displays your public ip and location data
 **ssh-keygen** | Generate ed25519 keypair
-**sshtabs** | Script you can modify to connect to multiple remote ssh sessions and restore screen sessions
