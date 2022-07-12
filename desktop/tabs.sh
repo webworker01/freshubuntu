@@ -1,6 +1,8 @@
 #!/bin/bash
 #
 # Open multiple gnome tabs, connect to ssh and reconnect screen session
+# Replace entries in the `hosts` array with the servers you need to connect to regularly
+#
 # @author webworker01
 #
 
