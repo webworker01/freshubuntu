@@ -11,3 +11,4 @@ Script Name | Function
 **nvidia** | Currently sets the powerlevel for multiple gpus, new features will be coming soon hopefully
 **sleepreset.sh** | Reset power saving features for monitors in case they get stuck "off"
 **spotify.sh** | Output the title and artist of the currently playing track in Spotify. Possibly alternatives in script's comments
+**tabs.sh** | Script you can modify to connect to multiple remote ssh sessions and restore screen sessions
