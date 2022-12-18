@@ -18,7 +18,7 @@ night() {
 }
 
 case $1 in
-  off|reset|normal) night 1:1:1     1.0 ;;
-  night)            night 1:0.8:0.5 0.7 ;;
-  *)                night 1.2:1:0.5 0.45 ;;
+    off|reset|normal) night 1:1:1     1.0 ;;
+    night)            night 1:0.8:0.5 0.7 ;;
+    *)                night 1.2:1:0.5 0.45 ;;
 esac
