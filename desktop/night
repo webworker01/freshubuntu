@@ -2,8 +2,8 @@
 # Sets up "night mode" and lowers brightness (software based) for desktop
 #
 # 3 presets:
-#   default - very dim and very redshift
-#   night   - slight dim and slight redshift
+#   default - slight dim and slight redshift
+#   night   - very dim and very redshift
 #   off     - normal desktop settings
 #
 # @see https://askubuntu.com/a/1061304
@@ -19,6 +19,6 @@ night() {
 
 case $1 in
     off|reset|normal) night 1:1:1     1.0 ;;
-    night)            night 1:0.8:0.5 0.7 ;;
-    *)                night 1.2:1:0.5 0.45 ;;
+    night)            night 1.2:1:0.5 0.45 ;;
+    *)                night 1:0.8:0.5 0.7 ;;
 esac
