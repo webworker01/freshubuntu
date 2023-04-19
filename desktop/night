@@ -19,6 +19,7 @@ night() {
 
 case $1 in
     off|reset|normal) night 1:1:1       1.0 ;;
+    dim)              night 1:1:1       0.7 ;;
     night)            night 1.2:0.8:0.5 0.45 ;;
     *)                night 1.1:0.8:0.5 0.7 ;;
 esac
