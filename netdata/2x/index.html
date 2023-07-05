@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Netdata Dash 3.0</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="stylesheet" href="./styles.css">
+
+    <script>
+        const servers = [
+            {
+                name: 'server1',
+                host: '',
+                nic: 'net.eno1'
+            },
+            {
+                name: 'server2',
+                host: '/host/server2',
+                nic: 'net.ens1f0'
+            }
+        ];
+
+        var netdataTheme = 'slate';
+        var netdataServer = 'https://<replace with your netdata server>/';
+        var netdataDontStart = true;
+        var netdataNoBootstrap = true;
+    </script>
+    <script type="text/javascript" src="https://<replace with your netdata server>/dashboard.js"></script>
+    <script>
+    // https://learn.netdata.cloud/docs/miscellaneous/build-a-custom-dashboard-html-page
+    // See also dashboard.html and dashboard.js for more info
+    NETDATA.options.current.destroy_on_hide = true;
+
+    // set this to false, to always show all dimensions
+    NETDATA.options.current.eliminate_zero_dimensions = true;
+
+    // lower the pressure on this browser
+    NETDATA.options.current.concurrent_refreshes = false;
+
+    // if the tv browser is too slow (a pi?)
+    // set this to false
+    NETDATA.options.current.parallel_refresher = true;
+
+    // always update the charts, even if focus is lost
+    NETDATA.options.current.stop_updates_when_focus_is_lost = false;
+
+    // Since you may render charts from many servers and any of them may
+    // become offline for some time, the charts will break.
+    // This will reload the page every RELOAD_EVERY minutes
+    /*
+    var RELOAD_EVERY = 5;
+    setTimeout(function(){
+        location.reload();
+    }, RELOAD_EVERY * 60 * 1000);
+    */
+
+    window.onload = () => {
+        const container = document.getElementById('servers-container');
+        const template = document.getElementById('server-template');
+
+        for (let i = 0; i < servers.length; i++) {
+            const clone = template.content.cloneNode(true);
+
+            if ([1, 2].includes(i)) {
+                clone.querySelector('.server-wrapper').classList.add('alternate');
+            }
+
+            const serverName = clone.querySelector('.server-name').textContent = servers[i].name;
+
+            if (servers[i].host !== '') {
+                const dataElements = clone.querySelectorAll('.server-row div');
+
+                dataElements.forEach(div => {
+                    div.setAttribute('data-host', servers[i].host);
+                });
+            }
+
+            const nicElements = clone.querySelectorAll('.server-row div.server-nic');
+            nicElements.forEach(div => {
+                div.setAttribute('data-netdata', servers[i].nic);
+            });
+
+            container.appendChild(clone);
+        }
+
+        //Finally start netdata
+        window.NETDATA.start();
+    };
+    </script>
+</head>
+<body>
+<div id="servers-container"></div>
+<template id="server-template">
+    <section class="server-wrapper">
+        <h4 role="heading" class="server-name"></h4>
+        <div class="server-row">
+            <div class="server-row-left">
+                <div class="netdata-container-gauge" data-netdata="system.cpu" data-chart-library="gauge" data-width="100%" data-height="100" data-colors="#22AA99" data-units="%" data-gauge-max-value="100" data-after="-1800" data-points="1800" role="application"></div>
+            </div>
+            <div class="server-row-right">
+                <div data-netdata="system.cpu" data-width="100%" data-height="75" data-after="-1800" data-legend="no" data-chart-library="dygraph" data-dygraph-valuerange="[0, 100]"></div>
+                <div class="server-nic" data-width="100%" data-height="75" data-after="-1800" data-legend="no" data-common-max="traffic" data-common-min="traffic" data-chart-library="dygraph"></div>
+            </div>
+        </div>
+        <div class="server-row">
+            <div class="server-row-left">
+                <div class="netdata-container-gauge" data-netdata="system.ram" data-chart-library="gauge" data-width="100%" data-height="100" data-colors="#EE9911" data-units="%" data-gauge-max-value="100" data-after="-1800" data-points="1800" data-dimensions="used|buffers|active|wired" data-append-options="percentage"  role="application"></div>
+            </div>
+            <div class="server-row-right">
+                <div data-netdata="system.ram" data-width="100%" data-height="75" data-after="-1800" data-legend="no" data-chart-library="dygraph"></div>
+                <div data-netdata="system.io"data-common-max="io" data-common-min="io" data-width="100%" data-height="75" data-after="-1800" data-legend="no" data-chart-library="dygraph"></div>
+            </div>
+        </div>
+    </section>
+</template>
+</body>
+</html>
