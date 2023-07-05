@@ -2,7 +2,7 @@ New netdata multi server layout replace `<replace with your netdata server>` and
 
 ![Netdata Multi Server Dashboard](./netdatadash.png)
 
-[Install custom dashboard](https://github.com/netdata/netdata/wiki/Custom-Dashboards)
+[Install custom dashboard](https://learn.netdata.cloud/docs/miscellaneous/build-a-custom-dashboard-html-page)
 
 * `/usr/share/netdata/web`
 
