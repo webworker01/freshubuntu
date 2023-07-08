@@ -66,21 +66,21 @@
         for (let i = 0; i < servers.length; i++) {
             const clone = template.content.cloneNode(true);
 
-            if ([1, 2].includes(i)) {
+            if ([1, 2, 5, 6, 9, 10].includes(i)) {
                 clone.querySelector('.server-wrapper').classList.add('alternate');
             }
 
             const serverName = clone.querySelector('.server-name').textContent = servers[i].name;
 
             if (servers[i].host !== '') {
-                const dataElements = clone.querySelectorAll('.server-row div');
+                const dataElements = clone.querySelectorAll('.server-visualizations div');
 
                 dataElements.forEach(div => {
                     div.setAttribute('data-host', servers[i].host);
                 });
             }
 
-            const nicElements = clone.querySelectorAll('.server-row div.server-nic');
+            const nicElements = clone.querySelectorAll('.server-visualizations div.server-nic');
             nicElements.forEach(div => {
                 div.setAttribute('data-netdata', servers[i].nic);
             });
@@ -97,24 +97,17 @@
 <div id="servers-container"></div>
 <template id="server-template">
     <section class="server-wrapper">
-        <h4 role="heading" class="server-name"></h4>
-        <div class="server-row">
-            <div class="server-row-left">
-                <div class="netdata-container-gauge" data-netdata="system.cpu" data-chart-library="gauge" data-width="100%" data-height="100" data-colors="#22AA99" data-units="%" data-gauge-max-value="100" data-after="-1800" data-points="1800" role="application"></div>
-            </div>
-            <div class="server-row-right">
-                <div data-netdata="system.cpu" data-width="100%" data-height="75" data-after="-1800" data-legend="no" data-chart-library="dygraph" data-dygraph-valuerange="[0, 100]"></div>
-                <div class="server-nic" data-width="100%" data-height="75" data-after="-1800" data-legend="no" data-common-max="traffic" data-common-min="traffic" data-chart-library="dygraph"></div>
-            </div>
+        <div class="server-left server-visualizations">
+            <h4 role="heading" class="server-name"></h4>
+            <div class="netdata-container-gauge" data-netdata="system.cpu" data-chart-library="gauge" data-width="100%" data-height="100" data-colors="#22AA99" data-units="%" data-gauge-max-value="100" data-after="-1800" data-points="1800" role="application"></div>
+            <div class="netdata-container-gauge" data-netdata="system.ram" data-chart-library="gauge" data-width="100%" data-height="100" data-colors="#BF830D" data-units="%" data-gauge-max-value="100" data-after="-1800" data-points="1800" data-dimensions="used|buffers|active|wired" data-append-options="percentage" role="application"></div>
+            <div class="netdata-container-gauge" data-netdata="system.swap" data-chart-library="gauge" data-width="100%" data-height="100" data-colors="#D25371" data-units="%" data-gauge-max-value="100" data-after="-1800" data-points="1800" data-dimensions="used" data-easypiechart-max-value="100" data-append-options="percentage" role="application"></div>
         </div>
-        <div class="server-row">
-            <div class="server-row-left">
-                <div class="netdata-container-gauge" data-netdata="system.ram" data-chart-library="gauge" data-width="100%" data-height="100" data-colors="#EE9911" data-units="%" data-gauge-max-value="100" data-after="-1800" data-points="1800" data-dimensions="used|buffers|active|wired" data-append-options="percentage"  role="application"></div>
-            </div>
-            <div class="server-row-right">
-                <div data-netdata="system.ram" data-width="100%" data-height="75" data-after="-1800" data-legend="no" data-chart-library="dygraph"></div>
-                <div data-netdata="system.io"data-common-max="io" data-common-min="io" data-width="100%" data-height="75" data-after="-1800" data-legend="no" data-chart-library="dygraph"></div>
-            </div>
+        <div class="server-right server-visualizations">
+            <div data-netdata="system.cpu" data-width="100%" data-height="75" data-after="-1800" data-legend="no" data-chart-library="dygraph" data-dygraph-valuerange="[0, 100]"></div>
+            <div class="server-nic" data-width="100%" data-height="75" data-after="-1800" data-legend="no" data-common-max="traffic" data-common-min="traffic" data-chart-library="dygraph"></div>
+            <div data-netdata="system.ram" data-width="100%" data-height="75" data-after="-1800" data-legend="no" data-chart-library="dygraph"></div>
+            <div data-netdata="system.io"data-common-max="io" data-common-min="io" data-width="100%" data-height="75" data-after="-1800" data-legend="no" data-chart-library="dygraph"></div>
         </div>
     </section>
 </template>
